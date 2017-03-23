@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from RATapp.views import home
+from RATapp.views import home, signin, signup
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home, name='home')
+    url(r'^$', home, name='home'),
+    url(r'^signin/$', signin, name='signin'),
+    url(r'^signup/$', signup, name='signup'),
 ]

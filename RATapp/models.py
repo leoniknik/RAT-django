@@ -3,7 +3,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 
 
-class MyUserManager(BaseUserManager):
+class UserManager(BaseUserManager):
     def create_user(self, email, password, firstname, lastname, phone):
         if email and password and firstname and lastname and phone:
             user = self.model(email=self.normalize_email(email), firstname=firstname, lastname=lastname, phone=phone)
@@ -18,7 +18,7 @@ class User(AbstractBaseUser):
     firstname = models.CharField(verbose_name='firstname', max_length=255, default="")
     lastname = models.CharField(verbose_name='lastname', max_length=255, default="")
 
-    objects = MyUserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

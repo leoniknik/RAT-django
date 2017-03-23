@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Регистрация</title>
-  </head>
-  <body>
-
-  </body>
+</head>
+<body>
+<form action="/signup/" method="post">{% csrf_token %}
+    <div>
+        <label for="email">Email: </label>
+        <input id="email" type="text" name="email">
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input id="password" type="text" name="password">
+    </div>
+    <div>
+        <label for="repeat_password">Repeat password: </label>
+        <input id="repeat_password" type="text" name="repeat_password">
+    </div>
+    <div>
+        <label for="firstname">First name: </label>
+        <input id="firstname" type="text" name="firstname">
+    </div>
+    <div>
+        <label for="lastname">Last name: </label>
+        <input id="lastname" type="text" name="lastname">
+    </div>
+    <div>
+        <label for="phone">Phone: </label>
+        <input id="phone" type="text" name="phone">
+    </div>
+    <div>
+        <input type="submit" value="OK">
+    </div>
+</form>
+</body>
 </html>
