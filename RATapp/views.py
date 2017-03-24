@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from RATapp.models import User
+from authorization import Auth
 
 
 def home(request):
@@ -7,7 +8,16 @@ def home(request):
 
 
 def signin(request):
-    return render(request, 'signin.html')
+    if request.method == 'GET':
+        return render(request, 'signin.html')
+    elif request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = Auth().authenticate(email, password)
+        if user is None:
+            return render(request, 'signin.html')
+        else:
+            return render(request, "temp.html")
 
 
 def signup(request):
