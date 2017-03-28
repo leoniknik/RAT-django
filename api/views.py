@@ -25,7 +25,7 @@ def signup(request):
         lastname = request.POST['lastname']
         phone = request.POST['phone']
         User.objects.create_user(email, password, firstname, lastname, phone)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
         return HttpResponseBadRequest()
