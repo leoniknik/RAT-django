@@ -40,7 +40,7 @@ def edit_user(request):
         lastname = request.POST['lastname']
         phone = request.POST['phone']
         User.objects.update_user(user_id, email, password, firstname, lastname, phone)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
         return HttpResponseBadRequest()
@@ -55,7 +55,7 @@ def add_vehicle(request):
         model = request.POST['model']
         year = request.POST['year']
         Vehicle.create_vehicle(VIN, number, brand, model, year, user_id)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
         return HttpResponseBadRequest()
@@ -70,7 +70,7 @@ def edit_vehicle(request):
         model = request.POST['model']
         year = request.POST['year']
         Vehicle.update_vehicle(vehicle_id, VIN, number, brand, model, year)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
         return HttpResponseBadRequest()
