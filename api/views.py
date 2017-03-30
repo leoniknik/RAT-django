@@ -14,7 +14,7 @@ def signin(request):
             return JsonResponse({'user_id': user.id})
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def signup(request):
@@ -28,7 +28,7 @@ def signup(request):
         return JsonResponse({})
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def edit_user(request):
@@ -40,10 +40,10 @@ def edit_user(request):
         lastname = request.POST['lastname']
         phone = request.POST['phone']
         User.objects.update_user(user_id, email, password, firstname, lastname, phone)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def add_vehicle(request):
@@ -55,10 +55,10 @@ def add_vehicle(request):
         model = request.POST['model']
         year = request.POST['year']
         Vehicle.create_vehicle(VIN, number, brand, model, year, user_id)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def edit_vehicle(request):
@@ -70,10 +70,10 @@ def edit_vehicle(request):
         model = request.POST['model']
         year = request.POST['year']
         Vehicle.update_vehicle(vehicle_id, VIN, number, brand, model, year)
-        return HttpResponse()
+        return JsonResponse({})
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def get_list_of_vehicles(request):
@@ -84,7 +84,7 @@ def get_list_of_vehicles(request):
         return JsonResponse(vehicles)
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def get_list_of_actual_crashes(request):
@@ -97,7 +97,7 @@ def get_list_of_actual_crashes(request):
         return JsonResponse(actual_crashes)
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def get_list_of_history_crashes(request):
@@ -110,7 +110,7 @@ def get_list_of_history_crashes(request):
         return JsonResponse(history_crashes)
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def get_list_of_offers(request):
@@ -121,7 +121,7 @@ def get_list_of_offers(request):
         return JsonResponse(offers)
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def get_service(request):
@@ -131,7 +131,7 @@ def get_service(request):
         return JsonResponse(service)
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
 
 
 def get_service_reviews(request):
@@ -142,4 +142,4 @@ def get_service_reviews(request):
         return JsonResponse(reviews)
     except Exception as e:
         print(e)
-        return HttpResponseBadRequest()
+        return JsonResponse({})
