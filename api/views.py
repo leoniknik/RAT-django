@@ -1,6 +1,7 @@
 from RATapp.models import User, Vehicle, Crash, CrashDescription, Offer, Service, Review
 from authorization import Auth
 from django.http import JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
+from django.core import serializers
 
 
 def signin(request):
@@ -78,10 +79,11 @@ def edit_vehicle(request):
 
 def get_list_of_vehicles(request):
     try:
-        user_id = request.GET['user_id']
+        user_id = request.GET["user_id"]
         user = User.objects.get(pk=user_id)
-        vehicles = Vehicle.objects.all().filter(user=user)
-        return JsonResponse(vehicles)
+        vehicles = Vehicle.objects.all().filter(user=user).values('id', 'VIN', 'number', 'brand', 'model', 'year')
+        data = list(vehicles)
+        return JsonResponse({"data": data})
     except Exception as e:
         print(e)
         return JsonResponse({})
@@ -91,10 +93,9 @@ def get_list_of_actual_crashes(request):
     try:
         vehicle_id = request.GET['vehicle_id']
         vehicle = Vehicle.objects.get(pk=vehicle_id)
-        actual_crashes = Crash.objects.all().filter(actual=True, vehicle=vehicle).values('description__code',
-                                                                                         'description__description',
-                                                                                         'description__crash')
-        return JsonResponse(actual_crashes)
+        actual_crashes = Crash.objects.all().filter(actual=True, vehicle=vehicle).values('id', 'description__code', 'description__full_description', 'description__short_description', 'date')
+        data = list(actual_crashes)
+        return JsonResponse({"data": data})
     except Exception as e:
         print(e)
         return JsonResponse({})
@@ -104,10 +105,9 @@ def get_list_of_history_crashes(request):
     try:
         vehicle_id = request.GET['vehicle_id']
         vehicle = Vehicle.objects.get(pk=vehicle_id)
-        history_crashes = Crash.objects.all().filter(actual=False, vehicle=vehicle).values('description__code',
-                                                                                           'description__description',
-                                                                                           'description__crash')
-        return JsonResponse(history_crashes)
+        history_crashes = Crash.objects.all().filter(actual=False, vehicle=vehicle).values('id', 'description__code', 'description__full_description', 'description__short_description', 'date')
+        data = list(history_crashes)
+        return JsonResponse({"data": data})
     except Exception as e:
         print(e)
         return JsonResponse({})
@@ -118,7 +118,8 @@ def get_list_of_offers(request):
         crash_id = request.GET['crash_id']
         crash = Crash.objects.get(pk=crash_id)
         offers = Offer.objects.all().filter(crash=crash)
-        return JsonResponse(offers)
+        data = list(offers)
+        return JsonResponse({"data": data})
     except Exception as e:
         print(e)
         return JsonResponse({})
@@ -139,7 +140,8 @@ def get_service_reviews(request):
         service_id = request.GET['service_id']
         service = Service.objects.get(pk=service_id)
         reviews = Review.objects.all().filter(service=service)
-        return JsonResponse(reviews)
+        data = list(reviews)
+        return JsonResponse({"data": data})
     except Exception as e:
         print(e)
         return JsonResponse({})
