@@ -12,10 +12,10 @@ def signin(request):
         if user is None:
             return HttpResponseForbidden()
         else:
-            return JsonResponse({'user_id': user.id})
+            return JsonResponse({"code": 0, "data": {"user_id": user.id}})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def signup(request):
@@ -26,10 +26,10 @@ def signup(request):
         lastname = request.POST['lastname']
         phone = request.POST['phone']
         User.objects.create_user(email, password, firstname, lastname, phone)
-        return JsonResponse({})
+        return JsonResponse({"code": 0})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def edit_user(request):
@@ -83,10 +83,10 @@ def get_list_of_vehicles(request):
         user = User.objects.get(pk=user_id)
         vehicles = Vehicle.objects.all().filter(user=user).values('id', 'VIN', 'number', 'brand', 'model', 'year')
         data = list(vehicles)
-        return JsonResponse({"data": data})
+        return JsonResponse({"code": 0, "data": data})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def get_list_of_actual_crashes(request):
