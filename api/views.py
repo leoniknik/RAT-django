@@ -10,9 +10,11 @@ def signin(request):
         password = request.POST['password']
         user = Auth().authenticate(email, password)
         if user is None:
-            return HttpResponseForbidden()
+            return JsonResponse({"code": 1})
         else:
-            return JsonResponse({"code": 0, "data": {"user_id": user.id}})
+            return JsonResponse({"code": 0, "data": {"user_id": user.id, "email": user.email,
+                                                     "firstname": user.firstname, "lastname": user.lastname,
+                                                     "phone": user.phone}})
     except Exception as e:
         print(e)
         return JsonResponse({"code": 1})
@@ -93,7 +95,10 @@ def get_list_of_actual_crashes(request):
     try:
         vehicle_id = request.GET['vehicle_id']
         vehicle = Vehicle.objects.get(pk=vehicle_id)
-        actual_crashes = Crash.objects.all().filter(actual=True, vehicle=vehicle).values('id', 'description__code', 'description__full_description', 'description__short_description', 'date')
+        actual_crashes = Crash.objects.all().filter(actual=True, vehicle=vehicle).values('id', 'description__code',
+                                                                                         'description__full_description',
+                                                                                         'description__short_description',
+                                                                                         'date')
         data = list(actual_crashes)
         return JsonResponse({"data": data})
     except Exception as e:
@@ -105,7 +110,10 @@ def get_list_of_history_crashes(request):
     try:
         vehicle_id = request.GET['vehicle_id']
         vehicle = Vehicle.objects.get(pk=vehicle_id)
-        history_crashes = Crash.objects.all().filter(actual=False, vehicle=vehicle).values('id', 'description__code', 'description__full_description', 'description__short_description', 'date')
+        history_crashes = Crash.objects.all().filter(actual=False, vehicle=vehicle).values('id', 'description__code',
+                                                                                           'description__full_description',
+                                                                                           'description__short_description',
+                                                                                           'date')
         data = list(history_crashes)
         return JsonResponse({"data": data})
     except Exception as e:
