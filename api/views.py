@@ -98,12 +98,12 @@ def get_list_of_actual_crashes(request):
         actual_crashes = Crash.objects.all().filter(actual=True, vehicle=vehicle).values('id', 'description__code',
                                                                                          'description__full_description',
                                                                                          'description__short_description',
-                                                                                         'date')
+                                                                                         'date', 'actual')
         data = list(actual_crashes)
-        return JsonResponse({"data": data})
+        return JsonResponse({"code": 0, "data": data})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def get_list_of_history_crashes(request):
@@ -113,12 +113,12 @@ def get_list_of_history_crashes(request):
         history_crashes = Crash.objects.all().filter(actual=False, vehicle=vehicle).values('id', 'description__code',
                                                                                            'description__full_description',
                                                                                            'description__short_description',
-                                                                                           'date')
+                                                                                           'date', 'actual')
         data = list(history_crashes)
-        return JsonResponse({"data": data})
+        return JsonResponse({"code": 0, "data": data})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def get_list_of_offers(request):
