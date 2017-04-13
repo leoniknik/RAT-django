@@ -127,20 +127,20 @@ def get_list_of_offers(request):
         crash = Crash.objects.get(pk=crash_id)
         offers = Offer.objects.all().filter(crash=crash)
         data = list(offers)
-        return JsonResponse({"data": data})
+        return JsonResponse({"code": 0, "data": data})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def get_service(request):
     try:
         service_id = request.GET['service_id']
         service = Service.objects.get(pk=service_id)
-        return JsonResponse(service)
+        return JsonResponse({"code": 0, "data": service})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
 
 
 def get_service_reviews(request):
@@ -149,7 +149,7 @@ def get_service_reviews(request):
         service = Service.objects.get(pk=service_id)
         reviews = Review.objects.all().filter(service=service)
         data = list(reviews)
-        return JsonResponse({"data": data})
+        return JsonResponse({"code": 0, "data": data})
     except Exception as e:
         print(e)
-        return JsonResponse({})
+        return JsonResponse({"code": 1})
