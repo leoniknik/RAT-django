@@ -1,2 +1,0 @@
-pip3 install service_identity
-pip3 install -U channels
