@@ -1,3 +1,4 @@
 ---
 applications:
 - name: rat_django
+  command: sh run.sh
