@@ -125,7 +125,7 @@ def get_list_of_offers(request):
     try:
         crash_id = request.GET['crash_id']
         crash = Crash.objects.get(pk=crash_id)
-        offers = Offer.objects.all().filter(crash=crash)
+        offers = Offer.objects.all().filter(crash=crash).values('id','price','message', 'service__name', 'service_id')
         data = list(offers)
         return JsonResponse({"code": 0, "data": data})
     except Exception as e:
