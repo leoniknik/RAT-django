@@ -1,1 +1,0 @@
-web: python3 manage.py makemigrations && python3 manage.py migrate && gunicorn rat_django.wsgi --log-file -
