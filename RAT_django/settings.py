@@ -85,9 +85,11 @@ WSGI_APPLICATION = 'RAT_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rat',
-        'USER': 'root',
-        'PASSWORD': '1234',
+        'NAME': 'ad_89350767e8eb63f',
+        'USER': 'be46147487453c',
+        'PASSWORD': 'c0cc3c9c',
+        'HOST': 'us-cdbr-iron-east-03.cleardb.net',
+        'PORT': '3306',
     }
 }
 
