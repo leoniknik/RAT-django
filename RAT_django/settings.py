@@ -24,7 +24,7 @@ SECRET_KEY = '^+*&sm#koug!_v1tjh3sp1rj_!%0j&=s_1f@+tw9(o@^do4)&+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.51', '192.168.1.33', '192.168.43.120', '.mybluemix.net', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -82,6 +82,7 @@ WSGI_APPLICATION = 'RAT_django.wsgi.application'
 #    }
 # }
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -90,6 +91,14 @@ DATABASES = {
         'PASSWORD': 'b4b7edcf',
         'HOST': 'us-cdbr-iron-east-03.cleardb.net',
         'PORT': '3306',
+    }
+}
+'''
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
