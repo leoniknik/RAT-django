@@ -153,3 +153,21 @@ def get_service_reviews(request):
     except Exception as e:
         print(e)
         return JsonResponse({"code": 1})
+
+
+def get_lists_of_vehicles_and_crashes(request):
+    try:
+        user_id = request.GET["user_id"]
+        user = User.objects.get(pk=user_id)
+        vehicles = Vehicle.objects.filter(user=user).values('id', 'VIN', 'number', 'brand', 'model', 'year')
+        vehicles = list(vehicles)
+        for vehicle in vehicles:
+            crashes = Crash.objects.filter(vehicle_id=vehicle["id"]).values('id', 'description__code', 'description__full_description',
+                                            'description__short_description', 'date', 'vehicle_id')
+            crashes=list(crashes)
+            vehicle['crashes'] = crashes
+
+        return JsonResponse({"code": 0, "data": vehicles})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"code": 1})
