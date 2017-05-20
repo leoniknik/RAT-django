@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from api.views import signin, signup, edit_user, add_vehicle, edit_vehicle, get_list_of_actual_crashes, \
-    get_list_of_history_crashes, get_list_of_offers, get_list_of_vehicles, get_service, get_service_reviews
+    get_list_of_history_crashes, get_list_of_offers, get_list_of_vehicles, get_service, get_service_reviews, get_lists_of_vehicles_and_crashes, get_lists_of_offers_and_services
 
 urlpatterns = [
     url(r'^signin$', signin),  # POST
@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^get_list_of_vehicles$', get_list_of_vehicles),  # GET
     url(r'^get_service$', get_service),  # GET
     url(r'^get_service_reviews$', get_service_reviews),  # GET
+    url(r'^get_lists_of_vehicles_and_crashes$', get_lists_of_vehicles_and_crashes), # GET
+    url(r'^get_lists_of_offers_and_services$', get_lists_of_offers_and_services), # GET
 ]

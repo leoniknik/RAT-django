@@ -46,6 +46,7 @@ class Vehicle(models.Model):
     model = models.CharField(verbose_name='model', max_length=255, default="")
     year = models.CharField(verbose_name='year', max_length=4, default="")
     user = models.ForeignKey(User, null=True)
+    is_auction = models.BooleanField(verbose_name='is_auction', default=False, db_index=True)
 
     @staticmethod
     def create_vehicle(VIN, number, brand, model, year, user_id):
@@ -68,14 +69,15 @@ class Crash(models.Model):
     vehicle = models.ForeignKey(Vehicle, null=True)
     actual = models.BooleanField(verbose_name='actual', default=True, db_index=True)
     description = models.ForeignKey(CrashDescription, null=True)
-    date = models.DateField(verbose_name='crash_date', null=True)
+    date = models.TextField(verbose_name='crash_date', null=True)
 
 
 class Service(models.Model):
     name = models.CharField(verbose_name='name', max_length=100, default="")
     description = models.TextField(verbose_name='description', default="")
     address = models.CharField(verbose_name='address', max_length=100, default="")
-    phone = models.CharField(verbose_name='phone', max_length=11, default="")
+    phone = models.CharField(verbose_name='phone', max_length=20, default="")
+    email = models.TextField(verbose_name='email', default="")
 
 
 class Review(models.Model):
@@ -86,7 +88,9 @@ class Review(models.Model):
 
 
 class Offer(models.Model):
-    crash = models.ForeignKey(Crash, null=True)
+    vehicle = models.ForeignKey(Vehicle, null=True)
     service = models.ForeignKey(Service, null=True)
     price = models.IntegerField(verbose_name='price', default=0)
     message = models.TextField(verbose_name='message', default="")
+    is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
+    is_confirmed = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
