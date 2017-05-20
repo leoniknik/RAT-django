@@ -171,3 +171,35 @@ def get_lists_of_vehicles_and_crashes(request):
     except Exception as e:
         print(e)
         return JsonResponse({"code": 1})
+
+
+def get_lists_of_offers_and_services(request):
+    try:
+        user_id = request.GET["user_id"]
+        user = User.objects.get(pk=user_id)
+        vehicles = Vehicle.objects.filter(user=user)
+        offers = []
+
+        for vehicle in vehicles:
+            tmp_offers = Offer.objects.filter(vehicle=vehicle).values('id','vehicle_id','service_id','price','message','date','is_avalible','is_confirmed')
+            for tmp_offer in tmp_offers:
+                service = Service.objects.filter(id=tmp_offer['service_id']).values('id','name','description','address','phone')[0]
+                reviews = Review.objects.filter().values('date','text','user_id')
+                reviews_list=[]
+                for review in reviews:
+                    user = User.objects.filter(id = review['user_id']).values('id','firstname','lastname')[0]
+                    review['user_id'] = user['id']
+                    review['firstname'] = user['firstname']
+                    review['lastname'] = user['lastname']
+
+                    reviews_list.append(review)
+                    service_list = (service)
+                    service_list['reviews']=reviews_list
+                    tmp_offer_list=(tmp_offer)
+                    tmp_offer_list['service']=service_list
+                    offers.append(tmp_offer_list)
+
+        return JsonResponse({"code": 0, "data": offers})
+    except Exception as e:
+        print(e)
+    return JsonResponse({"code": 1})

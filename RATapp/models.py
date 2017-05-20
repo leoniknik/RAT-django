@@ -77,6 +77,7 @@ class Service(models.Model):
     description = models.TextField(verbose_name='description', default="")
     address = models.CharField(verbose_name='address', max_length=100, default="")
     phone = models.CharField(verbose_name='phone', max_length=20, default="")
+    email = models.TextField(verbose_name='email', default="")
 
 
 class Review(models.Model):
@@ -91,3 +92,5 @@ class Offer(models.Model):
     service = models.ForeignKey(Service, null=True)
     price = models.IntegerField(verbose_name='price', default=0)
     message = models.TextField(verbose_name='message', default="")
+    is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
+    is_confirmed = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
