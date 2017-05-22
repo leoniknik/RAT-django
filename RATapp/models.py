@@ -54,9 +54,21 @@ class Vehicle(models.Model):
         Vehicle.objects.create(VIN=VIN, number=number, brand=brand, model=model, year=year, user=user)
 
     @staticmethod
-    def update_vehicle(vehicle_id, VIN, number, brand, model, year):
+    def update_vehicle(vehicle_id, VIN, number, brand, model, year,is_auction):
         vehicle = Vehicle.objects.get(pk=vehicle_id)
-        vehicle.update_vehicle(VIN=VIN, number=number, brand=brand, model=model, year=year)
+        vehicle.VIN =VIN
+        vehicle.number = number
+        vehicle.brand = brand
+        vehicle.model=model
+        vehicle.year=year
+        vehicle.is_auction=is_auction
+        vehicle.save()
+        #vehicle.update_vehicle(VIN=VIN, number=number, brand=brand, model=model, year=year,is_auction=is_auction)
+
+    @staticmethod
+    def delete_vehicle(vehicle_id):
+        vehicle = Vehicle.objects.get(pk=vehicle_id)
+        vehicle.delete()
 
 
 class CrashDescription(models.Model):
@@ -94,3 +106,21 @@ class Offer(models.Model):
     message = models.TextField(verbose_name='message', default="")
     is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
     is_confirmed = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
+
+
+class HighOffer(models.Model):
+    vehicle = models.ForeignKey(Vehicle, null=True)
+    service = models.ForeignKey(Service, null=True)
+    price = models.IntegerField(verbose_name='price', default=0)
+    message = models.TextField(verbose_name='message', default="")
+    date = models.TextField(verbose_name='date', default="")
+    is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
+    is_confirmed = models.BooleanField(verbose_name='is_confirmed', default=False, db_index=True)
+
+class LowOffer(models.Model):
+    high_offer = models.ForeignKey(HighOffer, null=True)
+    crash = models.ForeignKey(Crash, null=True)
+    price = models.IntegerField(verbose_name='price', default=0)
+    message = models.TextField(verbose_name='message', default="")
+    is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
+    is_chosen = models.BooleanField(verbose_name='is_chosen', default=False, db_index=True)
