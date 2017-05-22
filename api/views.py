@@ -171,7 +171,7 @@ def get_lists_of_vehicles_and_crashes(request):
         vehicles = list(vehicles)
         for vehicle in vehicles:
             crashes = Crash.objects.filter(vehicle_id=vehicle["id"]).values('id', 'description__code', 'description__full_description',
-                                            'description__short_description', 'date', 'vehicle_id')
+                                            'description__short_description', 'date', 'vehicle_id', 'actual')
             crashes=list(crashes)
             vehicle['crashes'] = crashes
         return JsonResponse({"code": 0, "data": vehicles})
