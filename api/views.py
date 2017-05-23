@@ -121,8 +121,7 @@ def get_list_of_history_crashes(request):
         vehicle = Vehicle.objects.get(pk=vehicle_id)
         history_crashes = Crash.objects.all().filter(actual=False, vehicle=vehicle).values('id', 'description__code',
                                                                                            'description__full_description',
-                                                                                           'description__short_description',
-                                                                                           'date', 'actual')
+                                                                                           'description__short_description',                                                                                       'date', 'actual')
         data = list(history_crashes)
         return JsonResponse({"code": 0, "data": data})
     except Exception as e:
@@ -172,10 +171,9 @@ def get_lists_of_vehicles_and_crashes(request):
         vehicles = list(vehicles)
         for vehicle in vehicles:
             crashes = Crash.objects.filter(vehicle_id=vehicle["id"]).values('id', 'description__code', 'description__full_description',
-                                            'description__short_description', 'date', 'vehicle_id')
+                                            'description__short_description', 'vehicle_id', 'actual', 'date')
             crashes=list(crashes)
             vehicle['crashes'] = crashes
-
         return JsonResponse({"code": 0, "data": vehicles})
     except Exception as e:
         print(e)
@@ -189,7 +187,6 @@ def get_lists_of_offers_and_services(request):
         user = User.objects.get(pk=user_id)
         vehicles = Vehicle.objects.filter(user=user,id=vehicle_id)
         offers = []
-
         for vehicle in vehicles:
             tmp_offers = Offer.objects.filter(vehicle=vehicle).values('id','vehicle_id','service_id','price','message','date','is_avalible','is_confirmed')
             for tmp_offer in tmp_offers:
@@ -201,22 +198,19 @@ def get_lists_of_offers_and_services(request):
                     review['user_id'] = user['id']
                     review['firstname'] = user['firstname']
                     review['lastname'] = user['lastname']
-
                     reviews_list.append(review)
-
                     service['reviews']=reviews_list
-
                     sl = []
                     sl.append(service)
                     service_list = list(sl)
                     tmp_offer_list=(tmp_offer)
                     tmp_offer_list['service']=service_list
                     offers.append(tmp_offer_list)
-
         return JsonResponse({"code": 0, "data": offers})
     except Exception as e:
         print(e)
     return JsonResponse({"code": 1})
+
 
 def get_lists_of_high_low_offers_and_services(request):
     try:
@@ -224,19 +218,13 @@ def get_lists_of_high_low_offers_and_services(request):
         vehicle_id = request.GET["vehicle_id"]
         user = User.objects.get(pk=user_id)
         vehicles = Vehicle.objects.filter(user=user,id=vehicle_id)
-
-
         offers = []
-
         for vehicle in vehicles:
             tmp_high_offers = HighOffer.objects.filter(vehicle=vehicle).values('id','vehicle_id','service_id','price','message','date','is_avalible','is_confirmed')
             for tmp_high_offer in tmp_high_offers:
                 tmp_low_offers = LowOffer.objects.filter(high_offer_id=tmp_high_offer['id']).values('id','crash_id','message','price','is_avalible','is_chosen')
                 low_offers = list(tmp_low_offers)
                 tmp_high_offer['low_offers'] = low_offers
-
-
-
                 service = Service.objects.filter(id=tmp_high_offer['service_id']).values('id','name','description','address','phone','email')[0]
                 reviews = Review.objects.filter(service_id=service["id"]).values('id','date','text','user_id')
                 reviews_list=[]
@@ -245,21 +233,14 @@ def get_lists_of_high_low_offers_and_services(request):
                     review['user_id'] = user['id']
                     review['firstname'] = user['firstname']
                     review['lastname'] = user['lastname']
-
                     reviews_list.append(review)
-
                 service['reviews']=reviews_list
-
                 sl = []
                 sl.append(service)
                 service_list = list(sl)
                 tmp_offer_list=(tmp_high_offer)
                 tmp_offer_list['service']=service_list
                 offers.append(tmp_offer_list)
-
-
-
-
         return JsonResponse({"code": 0, "data": offers})
     except Exception as e:
         print(e)

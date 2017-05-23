@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
     def update_user(self, user_id, email, password, firstname, lastname, phone):
         user = User.objects.get(pk=user_id)
         user.email = self.normalize_email(email)
-        #user.set_password(password)
+        user.set_password(password)
         user.firstname = firstname
         user.lastname = lastname
         user.phone = phone
@@ -51,8 +51,7 @@ class Vehicle(models.Model):
     @staticmethod
     def create_vehicle(VIN, number, brand, model, year, user_id):
         user = User.objects.get(pk=user_id)
-        vehicle = Vehicle.objects.create(VIN=VIN, number=number, brand=brand, model=model, year=year, user=user, is_auction=False)
-        return vehicle
+        Vehicle.objects.create(VIN=VIN, number=number, brand=brand, model=model, year=year, user=user)
 
     @staticmethod
     def update_vehicle(vehicle_id, VIN, number, brand, model, year,is_auction):
@@ -95,7 +94,7 @@ class Service(models.Model):
 
 class Review(models.Model):
     service = models.ForeignKey(Service, null=True)
-    date = models.TextField(verbose_name='review_date', max_length=255,default="")
+    date = models.DateField(verbose_name='review_date', null=True)
     user = models.ForeignKey(User, null=True)
     text = models.TextField(verbose_name='text', default="")
 
@@ -107,7 +106,8 @@ class Offer(models.Model):
     message = models.TextField(verbose_name='message', default="")
     date = models.TextField(verbose_name='date', default="")
     is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
-    is_confirmed = models.BooleanField(verbose_name='is_confirmed', default=False, db_index=True)
+    is_confirmed = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
+
 
 class HighOffer(models.Model):
     vehicle = models.ForeignKey(Vehicle, null=True)
