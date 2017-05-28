@@ -140,4 +140,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 AUTH_USER_MODEL = 'RATapp.User'
-AUTHENTICATION_BACKENDS = ['authorization.Auth']
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']

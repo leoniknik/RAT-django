@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password, firstname, lastname, phone):
         if email and password and firstname and lastname and phone:
