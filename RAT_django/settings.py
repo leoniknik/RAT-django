@@ -148,5 +148,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 AUTH_USER_MODEL = 'RATapp.User'
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
