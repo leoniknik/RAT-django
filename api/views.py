@@ -220,7 +220,7 @@ def get_lists_of_high_low_offers_and_services(request):
         vehicles = Vehicle.objects.filter(user=user,id=vehicle_id)
         offers = []
         for vehicle in vehicles:
-            tmp_high_offers = HighOffer.objects.filter(vehicle=vehicle).values('id','vehicle_id','service_id','price','message','date','is_avalible','is_confirmed')
+            tmp_high_offers = HighOffer.objects.filter(vehicle=vehicle).values('id','vehicle_id','service_id','date','is_avalible','is_confirmed')
             for tmp_high_offer in tmp_high_offers:
                 tmp_low_offers = LowOffer.objects.filter(high_offer_id=tmp_high_offer['id']).values('id','crash_id','message','price','is_avalible','is_chosen')
                 low_offers = list(tmp_low_offers)
@@ -242,6 +242,28 @@ def get_lists_of_high_low_offers_and_services(request):
                 tmp_offer_list['service']=service_list
                 offers.append(tmp_offer_list)
         return JsonResponse({"code": 0, "data": offers})
+    except Exception as e:
+        print(e)
+    return JsonResponse({"code": 1})
+
+def update_high_offer(request):
+    try:
+        offer_id = request.POST["id"]
+        offer = HighOffer.objects.get(id=offer_id)
+        offer.is_confirmed = request.POST["is_confirmed"]
+        offer.save()
+        return JsonResponse({"code": 0})
+    except Exception as e:
+        print(e)
+    return JsonResponse({"code": 1})
+
+def update_low_offer(request):
+    try:
+        low_offer_id = request.POST["id"]
+        offer = LowOffer.objects.get(id=low_offer_id)
+        offer.is_chosen = request.POST["is_chosen"]
+        offer.save()
+        return JsonResponse({"code": 0})
     except Exception as e:
         print(e)
     return JsonResponse({"code": 1})
