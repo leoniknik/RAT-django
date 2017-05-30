@@ -73,7 +73,8 @@ class Vehicle(models.Model):
     @staticmethod
     def create_vehicle(VIN, number, brand, model, year, user_id):
         user = User.objects.get(pk=user_id)
-        Vehicle.objects.create(VIN=VIN, number=number, brand=brand, model=model, year=year, user=user)
+        vehicle = Vehicle.objects.create(VIN=VIN, number=number, brand=brand, model=model, year=year, user=user)
+        return vehicle
 
     @staticmethod
     def update_vehicle(vehicle_id, VIN, number, brand, model, year,is_auction):
@@ -85,6 +86,7 @@ class Vehicle(models.Model):
         vehicle.year=year
         vehicle.is_auction=is_auction
         vehicle.save()
+        return vehicle
         #vehicle.update_vehicle(VIN=VIN, number=number, brand=brand, model=model, year=year,is_auction=is_auction)
 
     @staticmethod
