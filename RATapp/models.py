@@ -135,8 +135,8 @@ class Offer(models.Model):
 class HighOffer(models.Model):
     vehicle = models.ForeignKey(Vehicle, null=True)
     service = models.ForeignKey(Service, null=True)
-    price = models.IntegerField(verbose_name='price', default=0)
-    message = models.TextField(verbose_name='message', default="")
+    #price = models.IntegerField(verbose_name='price', default=0)
+    #message = models.TextField(verbose_name='message', default="")
     date = models.TextField(verbose_name='date', default="")
     is_avalible = models.BooleanField(verbose_name='is_avalible', default=False, db_index=True)
     is_confirmed = models.BooleanField(verbose_name='is_confirmed', default=False, db_index=True)
