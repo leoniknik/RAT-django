@@ -190,7 +190,7 @@ def get_lists_of_offers_and_services(request):
         for vehicle in vehicles:
             tmp_offers = Offer.objects.filter(vehicle=vehicle).values('id','vehicle_id','service_id','price','message','date','is_avalible','is_confirmed')
             for tmp_offer in tmp_offers:
-                service = Service.objects.filter(id=tmp_offer['service_id']).values('id','name','description','address','phone','email')[0]
+                service = Service.objects.filter(id=tmp_offer['service_id']).values('id','name','description','address','phone','email', 'longitude', 'latitude')[0]
                 reviews = Review.objects.filter(service_id=service["id"]).values('id','date','text','user_id')
                 reviews_list=[]
                 for review in reviews:
