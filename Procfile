@@ -1,1 +1,1 @@
-web:
+web: gunicorn -e DJANGO_SETTINGS_MODULE=RAT_django.settings RAT_django.wsgi --log-file -

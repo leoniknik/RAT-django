@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
+import datetime
 
 
 class UserManager(BaseUserManager):
@@ -10,6 +11,21 @@ class UserManager(BaseUserManager):
             user.set_password(password)
             user.save(using=self._db)
             return user
+
+    def create_superuser(self, email, password):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        date_of_birth = datetime.datetime.now()
+        user = self.create_user(email,
+                                password=password,
+                                firstname="admin",
+                                lastname="adminovich",
+                                phone="88005553535"
+                                )
+        user.save(using=self._db)
+        return user
 
     def update_user(self, user_id, email, password, firstname, lastname, phone):
         user = User.objects.get(pk=user_id)
@@ -26,7 +42,8 @@ class User(AbstractBaseUser):
     phone = models.CharField(verbose_name='phone', max_length=11, default="")
     firstname = models.CharField(verbose_name='firstname', max_length=255, default="")
     lastname = models.CharField(verbose_name='lastname', max_length=255, default="")
-
+    is_staff = models.BooleanField(verbose_name='is_staff', default=False)
+    is_superuser = models.BooleanField(verbose_name='is_staff', default=False)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -37,6 +54,12 @@ class User(AbstractBaseUser):
 
     def get_short_name(self):
         return self.firstname
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
 
 
 class Vehicle(models.Model):
