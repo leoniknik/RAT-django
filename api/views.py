@@ -58,7 +58,7 @@ def add_vehicle(request):
         model = request.POST['model']
         year = request.POST['year']
         vehicle = Vehicle.create_vehicle(VIN, number, brand, model, year, user_id)
-        return JsonResponse({"code": 0,"data":{"vehicle_id":vehicle.id}})
+        return JsonResponse({"code": 0,"data":{"vehicle_id":vehicle.id, "VIN": vehicle.VIN, "number": vehicle.number, "brand": vehicle.brand, "model": vehicle.model, "year": vehicle.year}})
     except Exception as e:
         print(e)
         return JsonResponse({"code": 1})
