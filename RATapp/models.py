@@ -17,7 +17,6 @@ class UserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
-        date_of_birth = datetime.datetime.now()
         user = self.create_user(email,
                                 password=password,
                                 firstname="admin",
@@ -113,6 +112,8 @@ class Service(models.Model):
     address = models.CharField(verbose_name='address', max_length=100, default="")
     phone = models.CharField(verbose_name='phone', max_length=20, default="")
     email = models.TextField(verbose_name='email', default="")
+    longitude = models.FloatField(verbose_name='longitude', default=0.0)
+    latitude = models.FloatField(verbose_name='latitude', default=0.0)
 
 
 class Review(models.Model):
